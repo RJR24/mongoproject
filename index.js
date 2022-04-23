@@ -20,20 +20,21 @@ const User = mongoose.model('User' , userSchema) ;
 
 async function createUser(){
   const user = new User({
-    first_name : 'Reza2',
-    last_name : 'Rezaeijami',
+    first_name : 'Rostam',
+    last_name : 'jami',
     favorites : ['sport' , 'data science' , 'music'],
-        admin : true ,
+        admin : false ,
   });
-  
+
   const result = await user.save();
   console.log(result);
 } 
 
-createUser();
+// createUser();
 
 async function getUsers (){
-  const users = await User.find();
+  const users = await User.find({last_name : 'jami' , admin : false})
+  .limit(4).sort({first_name : -1}).select({first_name : 1 , admin : 1});
   console.log(users);
 }
 
