@@ -18,6 +18,7 @@ const userSchema = mongoose.Schema({
 
 const User = mongoose.model('User' , userSchema) ;
 
+
 async function createUser(){
   const user = new User({
     first_name : 'Rostam',
@@ -34,8 +35,21 @@ async function createUser(){
 
 async function getUsers (){
   const users = await User.find({last_name : 'jami' , admin : false})
-  .limit(4).sort({first_name : -1}).select({first_name : 1 , admin : 1});
   console.log(users);
 }
 
-getUsers();
+
+// getUsers();
+
+
+async function updateUsers (id) {
+  const result = await User.update({_id : id}, 
+  {$set : {
+  firstname : 'Boss'
+  }})
+  console.log(result);
+}
+  
+
+
+updateUsers('62658a31ffd12b3b66635870');
