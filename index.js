@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+<<<<<<< HEAD
 
 mongoose
   .connect("mongodb://localhost:27017/mongoproject")
@@ -33,67 +34,55 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model("User", userSchema);
 
+=======
+
+mongoose
+  .connect("mongodb://localhost:27017/mongoproject")
+  .then(() => console.log("connected to mongodb"))
+  .catch((err) => console.log("could not connect to mongodb"));
+
+const userSchema = mongoose.Schema({
+  first_name: String,
+  last_name: { type: String, required: true },
+  favorites: [],
+  date: { type: Date, default: Date.now },
+  admin: Boolean,
+});
+
+const User = mongoose.model("User", userSchema);
+
+>>>>>>> 0b41f90a24643cfa279d69f78531bf0a27be76b8
 async function createUser() {
   const user = new User({
     first_name: "Rostam",
     last_name: "jami",
-    age: 26,
-    salary: 19.8,
-    favorites: ["sport", "music"],
+    favorites: ["sport", "data science", "music"],
     admin: false,
   });
-  try {
-    const result = await user.save();
-    console.log(result);
-  } catch (ex) {
-    console.log(ex.message);
-  }
+
+  const result = await user.save();
+  console.log(result);
 }
 
+// createUser();
 
-async function getUsers(id) {
-  const users = await User.find({_id : id});
-  console.log(users[0].salary);
+async function getUsers() {
+  const users = await User.find({ last_name: "jami", admin: false });
+  console.log(users);
 }
 
-// async function updateUser(id){
-  //   const user = await User.find(id)
-  //   if(!user) return;
-  //   // user.admin = true;
-  //   // user.first_name = "Updated Name";
-  
-  //   user.set({
-    //     admin : true,
-    //     first_name : 'pahlevoon!'
-    //   })
-    
-    //   const result = await user.save();
-    
-    // }
-    
-    
-    
-    async function updateUser(id) {
-      const result = await User.findByIdAndUpdate(
-        id,
-        {
-          $set: {
-            admin: true,
-            first_name: "IRAN",
-          },
-        },
-        { new: true }
-        );
-        console.log(result);
-      }
-      // updateUser("626503fc56f5419336ee3892");
-      
-      async function removeUser(id) {
-        const result = await User.findByIdAndRemove(id);
-        console.log(result);
-      }
-      
-      // removeUser ('626417d3a5a9dd18bae0ba48');
-      getUsers('6266e570226ad0fd2170adbb');
-      // createUser();
-    // updateUser("fa6e85bff952c");
+// getUsers();
+
+async function updateUser(id) {
+  const user = await User.update(
+    { _id: id },
+    {
+      $set: {
+        firstname: "Boss",
+      },
+    }
+  );
+  console.log(user);
+}
+
+updateUser("62658a31ffd12b3b66635870");
